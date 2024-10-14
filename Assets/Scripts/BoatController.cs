@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class BoatController : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float forwardAcceleration = 1;
     [SerializeField] private float rotationAcceleration = 12;
+    [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera boatmanCam;
     [SerializeField] private Vector2 cameraFovRange = new Vector2(60, 90);
     [SerializeField] private float maxFovSpeed = 3;
+    [SerializeField] private bool fovChange = false;
 
     private Rigidbody _rb;
 
@@ -24,8 +27,11 @@ public class BoatController : MonoBehaviour
 
     private void Update()
     {
-        boatmanCam.m_Lens.FieldOfView =
-            Mathf.Lerp(cameraFovRange.x, cameraFovRange.y, _rb.velocity.magnitude / maxFovSpeed);
+        if (fovChange)
+        {
+            boatmanCam.m_Lens.FieldOfView =
+                Mathf.Lerp(cameraFovRange.x, cameraFovRange.y, _rb.velocity.magnitude / maxFovSpeed);
+        }
     }
 
     private void Move(Vector2 input)
